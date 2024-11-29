@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <!-- Basic -->
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <!-- Mobile Metas -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <!-- Site Metas -->
+    <link rel="icon" href="{{ url_for('static', filename='images/tacho.png') }}" type="image/png" />
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+
+    <title>Gestor de residuos</title>
+
+    <!-- bootstrap core css -->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap.css') }}" />
+    <!-- font awesome style -->
+    <link href="{{ url_for('static', filename='css/font-awesome.min.css') }}" rel="stylesheet" />
+    <!-- Custom styles for this template -->
+    <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet" />
+    <!-- responsive style -->
+    <link href="{{ url_for('static', filename='css/responsive.css') }}" rel="stylesheet" />
+
+
+</head>
+
+<body>
+
+    <!-- header section strats -->
+    <header class="header_section">
+        <div class="container-fluid">
+            <nav class="navbar navbar-expand-lg custom_nav-container">
+                <a class="navbar-brand" href="/">
+                    <span>
+                        CR
+                    </span>
+                </a>
+                <div class="" id="">
+
+                    <div class="custom_menu-btn">
+                        <button onclick="openNav()">
+                            <span class="s-1"> </span>
+                            <span class="s-2"> </span>
+                            <span class="s-3"> </span>
+                        </button>
+                        <div id="myNav" class="overlay">
+                            <div class="overlay-content">
+                                <a href="/login">Iniciar session</a>
+                                <a href="/register">Registrarse</a>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </nav>
+        </div>
+    </header>
+    <!-- end header section -->
+
+    <!-- slider section -->
+    <section class="slider_section position-relative">
+        <div class="slider_bg_box">
+            <img src="{{ url_for('static', filename='images/slider-bg.jpg') }}" alt="Slider Background">
+        </div>
+        <div class="slider_bg"></div>
+        <div class="container">
+            <div class="col-md-9 col-lg-8">
+                <div class="detail-box">
+                    <h1>
+                        GESTOR DE
+                        <br> RESIDUOS
+                    </h1>
+                    <p>
+                        Bienvenido a tu gestor de residuos, quieres saber si tu generacion de basura es normal, ingresa
+                        aqui
+                    </p>
+                    <div>
+                        <a href="/clasificar" class="slider-link">
+                            Comenzar
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- 
+  <footer class="footer_section">
+    <div class="container">
+      <p>
+        &copy; <span id="displayYear"></span> All Rights Reserved By
+        <a href="https://html.design/">Free Html Templates</a>
+      </p>
+    </div>
+  </footer>-->
+
+    <!-- jQuery -->
+    <script src="{{ url_for('static', filename='js/jquery-3.4.1.min.js') }}"></script>
+    <!-- Bootstrap JS -->
+    <script src="{{ url_for('static', filename='js/bootstrap.js') }}"></script>
+    <!-- Custom JS -->
+    <script src="{{ url_for('static', filename='js/custom.js') }}"></script>
+
+</body>
+
+</html>

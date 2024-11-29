@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="{{ url_for('static', filename='images/tacho.png') }}" type="image/png" />
+    <title>Mis Registros</title>
+</head>
+
+<body>
+    <h1>Mis Registros</h1>
+    <a href="{{ url_for('inicio') }}">Volver a la página principal</a>
+
+    {% if registros %}
+    <table border="1">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Departamento</th>
+                <th>Cantidad por Kg</th>
+                <th>Clasificación</th>
+                <th>Fecha</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for registro in registros %}
+            <tr>
+                <td>{{ registro[0] }}</td> <!-- ID del registro -->
+                <td>{{ registro[2] }}</td> <!-- Departamento -->
+                <td>{{ registro[3] }}</td> <!-- Generación -->
+                <td>{{ registro[4] }}</td> <!-- Clasificación -->
+                <td>{{ registro[5] }}</td> <!-- Fecha (si la tienes) -->
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p>No tienes registros.</p>
+    {% endif %}
+</body>
+
+</html>

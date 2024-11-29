@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestor de residuos</title>
+    <link rel="icon" href="{{ url_for('static', filename='images/tacho.png') }}" type="image/x-icon">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+    <!-- bootstrap core css -->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap.css') }}" />
+    <!-- font awesome style -->
+    <link href="{{ url_for('static', filename='css/font-awesome.min.css') }}" rel="stylesheet" />
+    <!-- Custom styles for this template -->
+    <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet" />
+    <link href="{{ url_for('static', filename='form/styles.css') }}" rel="stylesheet" />
+    <!-- responsive style -->
+    <link href="{{ url_for('static', filename='css/responsive.css') }}" rel="stylesheet" />
+</head>
+
+<body>
+    <header class="header_section">
+        <div class="container-fluid">
+            <nav class="navbar navbar-expand-lg custom_nav-container">
+                <a class="navbar-brand" href="/">
+                    <span>
+                        CR
+                    </span>
+                </a>
+                <div class="" id="">
+
+                    <div class="custom_menu-btn">
+                        <button onclick="openNav()">
+                            <span class="s-1"> </span>
+                            <span class="s-2"> </span>
+                            <span class="s-3"> </span>
+                        </button>
+                        <div id="myNav" class="overlay">
+                            <div class="overlay-content">
+                                <a href="{{ url_for('mis_registros') }}">Ver mis registros</a>
+                                <a href="{{ url_for('logout') }}">Cerrar sesión</a>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </nav>
+        </div>
+    </header>
+    <div class="formbold-main-wrapper">
+        <div class="w-full">
+            <div class="formbold-form-wrapper">
+                <div class="formbold-form-header">
+                    <h3>Ingresa tus datos</h3>
+                    <button onclick="chatboxToogleHandler()">
+                        <svg width="17" height="17" viewBox="0 0 17 17" fill="white">
+                            <path fill-rule="evenodd" clip-rule="evenodd"
+                                d="M0.474874 0.474874C1.10804 -0.158291 2.1346 -0.158291 2.76777 0.474874L16.5251 14.2322C17.1583 14.8654 17.1583 15.892 16.5251 16.5251C15.892 17.1583 14.8654 17.1583 14.2322 16.5251L0.474874 2.76777C-0.158291 2.1346 -0.158291 1.10804 0.474874 0.474874Z" />
+                            <path fill-rule="evenodd" clip-rule="evenodd"
+                                d="M0.474874 16.5251C-0.158291 15.892 -0.158291 14.8654 0.474874 14.2322L14.2322 0.474874C14.8654 -0.158292 15.892 -0.158291 16.5251 0.474874C17.1583 1.10804 17.1583 2.1346 16.5251 2.76777L2.76777 16.5251C2.1346 17.1583 1.10804 17.1583 0.474874 16.5251Z" />
+                        </svg>
+                    </button>
+                </div>
+                <form action="/clasificar" method="POST" class="formbold-chatbox-form">
+                    <div class="formbold-mb-5">
+                        <label for="depto" class="formbold-form-label"> Departamento </label>
+                        <input type="text" id="depto" name="depto" placeholder="departamento"
+                            class="formbold-form-input" />
+                    </div>
+
+                    <div class="formbold-mb-5">
+                        <label for="generacion" class="formbold-form-label"> Cantidad por Kg </label>
+                        <input type="text" id="generacion" name="generacion" placeholder="generacion"
+                            class="formbold-form-input" />
+                    </div>
+
+                    <div>
+                        <button class="formbold-btn w-full">Almacenar y evaluar</button>
+                    </div>
+                </form>
+            </div>
+            <div class="formbold-form-wrapper2">
+                {% if result %}
+                <p class="result">Resultado: {{ result }}</p>
+
+                {% if result == 'Bajo' %}
+                <img src="{{ url_for('static', filename='images/bajo.png') }}" alt="Nivel bajo" class="result-image">
+                {% elif result == 'Moderado' %}
+                <img src="{{ url_for('static', filename='images/moderado.png') }}" alt="Nivel moderado"
+                    class="result-image">
+                {% elif result == 'Alto' %}
+                <img src="{{ url_for('static', filename='images/alto.png') }}" alt="Nivel alto" class="result-image">
+                {% endif %}
+                {% elif error %}
+                <p class="error">{{ error }}</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Inter", sans-serif;
+        }
+
+        .formbold-mb-5 {
+            margin-bottom: 20px;
+        }
+
+        .formbold-pt-3 {
+            padding-top: 12px;
+        }
+
+        .formbold-main-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 48px;
+        }
+
+        .formbold-form-wrapper {
+            height: 500px;
+            overflow-y: auto;
+            margin: 0 auto;
+            max-width: 550px;
+            width: 100%;
+            background: white;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            /* Ocultar inicialmente */
+            position: fixed;
+            /* Fijo en la pantalla */
+            bottom: 20px;
+            /* Cerca del borde derecho */
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+            /* Sombra para destacar */
+        }
+
+        .result-image {
+            max-width: 100%;
+            /* Asegura que la imagen no exceda el ancho disponible */
+            height: auto;
+            /* Mantiene la proporción de la imagen */
+            max-height: 300px;
+            /* Ajusta el tamaño máximo de la imagen */
+            display: block;
+            /* Asegura que la imagen se muestre como bloque */
+            margin: 0 auto;
+            /* Centra la imagen si es más pequeña que el contenedor */
+        }
+
+        .formbold-form-wrapper2 {
+            height: 500px;
+            overflow-y: auto;
+            margin: 0 auto;
+            max-width: 550px;
+            width: 100%;
+            background: white;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            /* Ocultar inicialmente */
+            position: fixed;
+            /* Fijo en la pantalla */
+            bottom: 20px;
+            /* Cerca del borde derecho */
+            right: 40px;
+            /* Asegura que esté encima de otros elementos */
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+            /* Sombra para destacar */
+        }
+
+
+        .formbold-form-wrapper.active {
+            display: block;
+        }
+
+        .formbold-form-label {
+            display: block;
+            font-weight: 500;
+            font-size: 16px;
+            color: #07074d;
+            margin-bottom: 12px;
+        }
+
+        .formbold-form-label-2 {
+            font-weight: 600;
+            font-size: 20px;
+            margin-bottom: 20px;
+        }
+
+        .formbold-form-input {
+            width: 100%;
+            padding: 12px 24px;
+            border-radius: 6px;
+            border: 1px solid #e0e0e0;
+            background: white;
+            font-weight: 500;
+            font-size: 16px;
+            color: #6b7280;
+            outline: none;
+            resize: none;
+        }
+
+        .formbold-form-input:focus {
+            border-color: #6a64f1;
+            box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .formbold-btn {
+            text-align: center;
+            font-size: 16px;
+            border-radius: 6px;
+            padding: 14px 32px;
+            border: none;
+            font-weight: 600;
+            background-color: #6a64f1;
+            color: white;
+            cursor: pointer;
+        }
+
+        .formbold-btn:hover {
+            box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .formbold--mx-3 {
+            margin-left: -12px;
+            margin-right: -12px;
+        }
+
+        .formbold-px-3 {
+            padding-left: 12px;
+            padding-right: 12px;
+        }
+
+        .flex {
+            display: flex;
+        }
+
+        .flex-wrap {
+            flex-wrap: wrap;
+        }
+
+        .w-full {
+            width: 100%;
+        }
+
+        .formbold-form-header {
+            background: #6a64f1;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 36px;
+            border-radius: 8px 8px 0px 0px;
+        }
+
+        .formbold-form-header h3 {
+            font-weight: 700;
+            font-size: 20px;
+            color: white;
+        }
+
+        .formbold-form-header button {
+            color: white;
+            background: transparent;
+            border: none;
+        }
+
+        .formbold-chatbox-form {
+            padding: 32px 36px;
+        }
+
+        .formbold-action-buttons {
+            position: fixed;
+            /* Fija el botón en una posición específica */
+            bottom: 20px;
+            /* Ajusta la distancia desde la parte inferior */
+            right: 20px;
+            /* Ajusta la distancia desde la parte derecha */
+            z-index: 1000;
+        }
+
+        .formbold-action-btn {
+            width: 70px;
+            height: 70px;
+            background: #6a64f1;
+            color: white;
+            border-radius: 50%;
+            margin-left: 20px;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .formbold-action-btn .formbold-cross-icon {
+            display: none;
+        }
+
+        .formbold-action-btn.active .formbold-cross-icon {
+            display: block;
+        }
+
+        .formbold-action-btn.active .formbold-chat-icon {
+            display: none;
+        }
+
+        @media (min-width: 540px) {
+            .sm\:w-half {
+                width: 50%;
+            }
+        }
+    </style>
+    <script>
+        const formWrapper = document.querySelector(".formbold-form-wrapper");
+        const formActionButton = document.querySelector(".formbold-action-btn");
+        function chatboxToogleHandler() {
+            formWrapper.classList.toggle("active");
+            formActionButton.classList.toggle("active");
+        }
+    </script>
+    <!-- jQuery -->
+    <script src="{{ url_for('static', filename='js/jquery-3.4.1.min.js') }}"></script>
+    <!-- Bootstrap JS -->
+    <script src="{{ url_for('static', filename='js/bootstrap.js') }}"></script>
+    <!-- Custom JS -->
+    <script src="{{ url_for('static', filename='js/custom.js') }}"></script>
+</body>
+
+</html>
